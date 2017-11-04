@@ -17,7 +17,7 @@ class listener(tweepy.StreamListener):
 
 if __name__ == "__main__":
 
-	stock_name = "APPL"
+	stock_name = "iPhoneX"
 
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
