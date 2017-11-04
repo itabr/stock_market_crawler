@@ -17,19 +17,19 @@ class listener(tweepy.StreamListener):
 
 if __name__ == "__main__":
 
-	stock_name = "AAPL"
+	stock_name = "APPL"
 
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
 	api = tweepy.API(auth)
 
 	# stream data
-
-	twitterStream = tweepy.Stream(auth, listener())
-	twitterStream.filter(track=[stock_name])
+	#
+	# twitterStream = tweepy.Stream(auth, listener())
+	# twitterStream.filter(track=[stock_name])
 
 	# request tweet
 
-	# r = api.search(q="TWTR")
-	# for tweet in r:
-	# 	print(tweet._json)
+	r = api.search(q=stock_name)
+	for tweet in r:
+		print(tweet._json)
