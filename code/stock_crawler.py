@@ -37,7 +37,14 @@ if __name__ == "__main__":
 	r = api.search(q=stock_name, lang="en", rpp=(1 if dev_mode else 1500))
 	for tweet in r:
 		print(tweet._json)
-		tokenizedStr = tweetPreprocessor.tokenize(tweet.text)
+
+		# Remove emojis, hashtags, and URLS 
+		cleanedStr = tweetPreprocessor.clean(tweet.text)
+
+		# Tokenize cleaned tweet into a string of words (separated by spaces)
+		tokenizedStr = tweetPreprocessor.tokenize(cleanedStr)
+
+		# Convert tokenized string to list of strings
 		tokenizedStrList = tokenizedStr.split();
 
 		print("************************************************************")
