@@ -1,4 +1,8 @@
 import tweepy
+import preprocessor as tweetPreprocessor
+
+# Set to true in development mode to prevent API exhaustion 
+dev_mode = True
 
 consumer_key = "WMBaLdmJmWysb7kisqdKBD3Wd"
 consumer_secret = "mrCiHxnSv7ZV5HsC1Sywu44N7R0n3x4d4wmiSTszNt50Gq5ObX"
@@ -17,7 +21,7 @@ class listener(tweepy.StreamListener):
 
 if __name__ == "__main__":
 
-	stock_name = "iPhoneX"
+	stock_name = "AAPL"
 
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
@@ -30,6 +34,13 @@ if __name__ == "__main__":
 
 	# request tweet
 
-	r = api.search(q=stock_name)
+	r = api.search(q=stock_name, lang="en", rpp=(1 if dev_mode else 1500))
 	for tweet in r:
 		print(tweet._json)
+		tokenizedStr = tweetPreprocessor.tokenize(tweet.text)
+		tokenizedStrList = tokenizedStr.split();
+
+		print("************************************************************")
+		print("----> Original String:", tweet.text)
+		print("----> Tokenized String List:", tokenizedStrList)
+		print("************************************************************")

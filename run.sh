@@ -1,2 +1,2 @@
 #!/bin/bash
-python stock_crawler.py 
+python code/stock_crawler.py 
