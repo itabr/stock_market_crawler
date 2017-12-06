@@ -10,7 +10,7 @@ access_token_secret = "4iNT66uZmufHLh79wkhz4WyI7tW0TrGkWW4auxRczbLcX"
 if __name__ == "__main__":
 
 	# stock_name = "AAPL", "iPhone", "apple", "stock"
-	stock_name = "AAPL"
+	stock_name = "iPhone"
 
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
@@ -21,14 +21,15 @@ if __name__ == "__main__":
 
 
 	max_tweets=100
+
 	searched_tweets = [status._json for status in tweepy.Cursor(api.search, q=stock_name).items(max_tweets)]
 	json_strings = [json.dumps(json_obj) for json_obj in searched_tweets]
 	for json_obj in searched_tweets:
 		f.write(json.dumps(json_obj))
 		f.write("\n")
-	f.close()
 	print("Write to output file success!")
 
+	f.close()
 
 	# r = api.search(q=stock_name, since="2017-11-01", lang="en")
 	# print("Total number of tweets fetched from page ", pageNum, "is: ", len(r))
