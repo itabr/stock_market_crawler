@@ -1,6 +1,7 @@
 import tweepy
 import preprocessor as tweetPreprocessor
 import json
+import time
 
 consumer_key = "WMBaLdmJmWysb7kisqdKBD3Wd"
 consumer_secret = "mrCiHxnSv7ZV5HsC1Sywu44N7R0n3x4d4wmiSTszNt50Gq5ObX"
@@ -10,25 +11,35 @@ access_token_secret = "4iNT66uZmufHLh79wkhz4WyI7tW0TrGkWW4auxRczbLcX"
 if __name__ == "__main__":
 
 	# stock_name = "AAPL", "iPhone", "apple", "stock"
-	stock_name = "iPhone"
+	stock_name = "Apple", "stock", "win", "dow"
+	print(stock_name)
 
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
 	api = tweepy.API(auth)
 
 	# request tweet
-	f = open("output.txt", "w+")
+	f = open("tweet_training.csv", "w+")
 
 
-	max_tweets=100
-
-	searched_tweets = [status._json for status in tweepy.Cursor(api.search, q=stock_name).items(max_tweets)]
-	json_strings = [json.dumps(json_obj) for json_obj in searched_tweets]
-	for json_obj in searched_tweets:
-		f.write(json.dumps(json_obj))
-		f.write("\n")
-	print("Write to output file success!")
-
+	query_list = [("Apple", "stock", "dow", "win"), ("Apple", "stock", "lose"), ("Apple", "stock", "win"), ("Apple", "stock", "up"), ("Apple", "stock", "down")]
+	max_tweets=500
+	tweet_set = set()
+	for query in query_list:
+		searched_tweets = [status._json for status in tweepy.Cursor(api.search, q=query, lang="en").items(max_tweets)]
+		json_strings = [json.dumps(json_obj) for json_obj in searched_tweets]
+		for json_obj in searched_tweets:
+			# tweet_text = tweetPreprocessor.clean(json_obj["text"]).replace(',', '')
+			tweet_text = json_obj["text"].replace(',', '').replace('\n', ' ')
+			if (tweetPreprocessor.clean(tweet_text) in tweet_set): continue
+			tweet_set.add(tweetPreprocessor.clean(tweet_text))
+			f.write(json_obj["created_at"])
+			f.write(',')
+			f.write(tweet_text)
+			f.write("\n")
+		print("Write to output file success for query ", query)
+		print("sleep 1 second")
+		time.sleep(1)
 	f.close()
 
 	# r = api.search(q=stock_name, since="2017-11-01", lang="en")
