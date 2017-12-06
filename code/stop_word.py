@@ -17,6 +17,13 @@ def getFeatureVector(tweet):
 		w = replaceTwoOrMore(w)
 		w = w.strip('\'"?,.')
 		val = re.search(r"^[a-zA-Z][a-zA-Z0-9]*$", w)
-
-		featureVector.append(w.lower())
+		if(len(w)>1):
+			featureVector.append(w.lower())
 	return featureVector
+
+def extract_features(tweet,featureList):
+    tweet_words = set(tweet)
+    features = {}
+    for word in featureList:
+        features['contains(%s)' % word] = (word in tweet_words)
+    return features
