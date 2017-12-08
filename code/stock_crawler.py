@@ -19,10 +19,10 @@ if __name__ == "__main__":
 	api = tweepy.API(auth)
 
 	# request tweet
-	f = open("tweet_training.csv", "w+")
+	f = open("tweet_training_tesla.csv", "w+")
 
 
-	query_list = [("Apple", "stock", "dow", "win"), ("Apple", "stock", "lose"), ("Apple", "stock", "win"), ("Apple", "stock", "up"), ("Apple", "stock", "down")]
+	query_list = [("Tesla", "stock", "dow", "win"), ("Tesla", "stock", "lose"), ("Tesla", "stock", "win"), ("Tesla", "stock", "up"), ("Tesla", "stock", "down"), ("Tesla", "stock")]
 	max_tweets=500
 	tweet_set = set()
 	for query in query_list:
