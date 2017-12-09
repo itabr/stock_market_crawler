@@ -22,7 +22,7 @@ def tweet_trainer(f_training):
 
 
 def tweet_classyfier(f_testing,f_output,classifier,all_words):
-	reader_testing = csv.reader(f_testing)
+	reader_testing = csv.reader(f_testing ,delimiter=',', quotechar='|')
 	for row in reader_testing:
 		try:
 			timestamp = row[0]
