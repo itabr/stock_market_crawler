@@ -61,7 +61,7 @@ if __name__ == '__main__':
 
     regressor = LinearRegression()
     regressor.fit(X_train, y_train)
-    print(regressor.score(X_test, y_test))
+    print("Correlation (r2 score): " + regressor.score(X_test, y_test))
 
 
 
