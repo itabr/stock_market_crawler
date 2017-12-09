@@ -19,12 +19,12 @@ if __name__ == "__main__":
 	api = tweepy.API(auth)
 
 	# request tweet
-	f = open("[name_your_file].csv", "w+")
+	f = open("tweet_generated_tesla_alot.csv", "w+")
 
 
-	query_list = ["Tesla"]
+	query_list = [("Tesla","stock")]
 	# query_list = [("Tesla", "stock", "dow", "win"), ("Tesla", "stock", "lose"), ("Tesla", "stock", "win"), ("Tesla", "stock", "up"), ("Tesla", "stock", "down"), ("Tesla", "stock")]
-	max_tweets=1000
+	max_tweets=2000
 	tweet_set = set()
 	for query in query_list:
 		searched_tweets = [status._json for status in tweepy.Cursor(api.search, q=query, lang="en").items(max_tweets)]
