@@ -24,23 +24,26 @@ def tweet_trainer(f_training):
 def tweet_classyfier(f_testing,f_output,classifier,all_words):
 	reader_testing = csv.reader(f_testing)
 	for row in reader_testing:
-		timestamp = row[0]
-		processedTweet = clean_tweet(row[1])
-		test_sent_features = {word.lower(): (word in word_tokenize(processedTweet.lower())) for word in all_words}
-		sentiment = classifier.classify(test_sent_features)
-		
-		line = sentiment + "," + timestamp + "," + processedTweet
-		f_output.write(line)
-		f_output.write('\n')
+		try:
+			timestamp = row[0]
+			processedTweet = clean_tweet(row[1])
+			test_sent_features = {word.lower(): (word in word_tokenize(processedTweet.lower())) for word in all_words}
+			sentiment = classifier.classify(test_sent_features)
 
-		print(sentiment,timestamp,processedTweet)
+			line = sentiment + "," + timestamp + "," + processedTweet
+			f_output.write(line)
+			f_output.write('\n')
+
+			print(sentiment,timestamp,processedTweet)
+		except:
+			pass
 
 
 
 
 
 f_training = open("../tweet_training_tesla.csv", 'r', encoding='mac_roman', newline='')
-f_testing = open("../tweets_tesla.csv", 'r', encoding='mac_roman', newline='')
+f_testing = open("../tweet_generated_tesla.csv", 'r', encoding='mac_roman', newline='')
 f_output = open("tweets_classifed_using_classifier.csv","w+")
 
 train = tweet_trainer(f_training)
