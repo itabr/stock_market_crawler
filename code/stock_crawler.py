@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
 	query_list = [("Tesla","stock")]
 	# query_list = [("Tesla", "stock", "dow", "win"), ("Tesla", "stock", "lose"), ("Tesla", "stock", "win"), ("Tesla", "stock", "up"), ("Tesla", "stock", "down"), ("Tesla", "stock")]
-	max_tweets=2000
+	max_tweets=1500
 	tweet_set = set()
 	for query in query_list:
 		searched_tweets = [status._json for status in tweepy.Cursor(api.search, q=query, lang="en").items(max_tweets)]
