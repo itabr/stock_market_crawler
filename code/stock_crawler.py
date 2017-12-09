@@ -11,19 +11,20 @@ access_token_secret = "4iNT66uZmufHLh79wkhz4WyI7tW0TrGkWW4auxRczbLcX"
 if __name__ == "__main__":
 
 	# stock_name = "AAPL", "iPhone", "apple", "stock"
-	stock_name = "Apple", "stock", "win", "dow"
-	print(stock_name)
+	# stock_name = "Apple", "stock", "win", "dow"
+	# print(stock_name)
 
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
 	api = tweepy.API(auth)
 
 	# request tweet
-	f = open("tweet_training_tesla.csv", "w+")
+	f = open("[name_your_file].csv", "w+")
 
 
-	query_list = [("Tesla", "stock", "dow", "win"), ("Tesla", "stock", "lose"), ("Tesla", "stock", "win"), ("Tesla", "stock", "up"), ("Tesla", "stock", "down"), ("Tesla", "stock")]
-	max_tweets=500
+	query_list = ["Tesla"]
+	# query_list = [("Tesla", "stock", "dow", "win"), ("Tesla", "stock", "lose"), ("Tesla", "stock", "win"), ("Tesla", "stock", "up"), ("Tesla", "stock", "down"), ("Tesla", "stock")]
+	max_tweets=1000
 	tweet_set = set()
 	for query in query_list:
 		searched_tweets = [status._json for status in tweepy.Cursor(api.search, q=query, lang="en").items(max_tweets)]
