@@ -60,7 +60,7 @@ def get_final_data(sentiment_data, stock_data):
 
 if __name__ == '__main__':
     tesla_data = google_stocks('TSLA', shiftby=3, startdate=(11, 28, 2017), enddate=(12, 11, 2017))
-    sentiment_data = get_sentiment_data('tweets_classifed_using_classifier.csv')
+    sentiment_data = get_sentiment_data('../data/tweets_classifed_using_classifier.csv')
 
     # print(tesla_data)
 
