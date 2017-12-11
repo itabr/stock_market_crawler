@@ -6,5 +6,5 @@ stop_word.py
 	- parses tweets and removes all non-essential words (stopwords)
 tweet_class.py
 	- text classifier built to extract sentiments from tweet data
-twitter_crawler.py
+stock_crawler.py
 	- crawler to obtain tweets using Tweepy API
