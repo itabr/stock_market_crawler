@@ -2,6 +2,8 @@ import pandas as pd
 import io
 import requests
 import time
+import matplotlib.pyplot as plt
+
 from datetime import datetime
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -15,17 +17,18 @@ def google_stocks(symbol, shiftby=-1, startdate = (1, 1, 2006), enddate = None):
     else:
         enddate = str(enddate[0]) + '+' + str(enddate[1]) + '+' + str(enddate[2])
 
-    stock_url = "http://finance.google.com/finance/historical?q=" + symbol + \
+    stock_query = "http://finance.google.com/finance/historical?q=" + symbol + \
                 "&startdate=" + startdate + "&enddate=" + enddate + "&output=csv"
 
-    print stock_url
+    print stock_query
  
-    raw_response = requests.get(stock_url).content
+    raw_response = requests.get(stock_query).content
     
     stock_data = pd.read_csv(io.StringIO(raw_response.decode('utf-8')))
     stock_data['Date'] = stock_data['Date'].apply(lambda x: datetime.strptime(x, '%d-%b-%y').date())
     stock_data['Changes'] = stock_data['Close'] - stock_data['Close'].shift(shiftby)
     # stock_data['Date'] = stock_data['Date'].apply(lambda x: str(x))
+    stock_data.to_csv('../data/stock_price.csv')
     return stock_data
 
 def get_sentiment_data(csv):
@@ -42,7 +45,7 @@ def get_sentiment_data(csv):
     # Get classification counts per day
     sentiment_data_count = pd.DataFrame({'count' : sentiment_data.groupby( [ "Date", "Classification"] ).size()}).reset_index()
     sentiment_data_count = sentiment_data_count.pivot(index='Date', columns='Classification', values='count').reset_index()
-
+    sentiment_data_count.to_csv('../data/sentiment_data.csv')
     return sentiment_data_count
 
 def get_final_data(sentiment_data, stock_data):
@@ -52,7 +55,7 @@ def get_final_data(sentiment_data, stock_data):
 
     # Remove NaNs
     final_data = final_data[final_data['Changes'] == final_data['Changes']]
-
+    final_data.to_csv('../data/regressor_data.csv')
     return final_data
 
 if __name__ == '__main__':
@@ -71,8 +74,25 @@ if __name__ == '__main__':
 
     regressor = LinearRegression()
     regressor.fit(X_train, y_train)
+
+    x_plot = final_data['Date']
+    y_pred = regressor.predict(X)
+    y_true = y
+
+    line1, = plt.plot(x_plot, y_pred, label="Predicted")
+    line2, = plt.plot(x_plot, y_true, label="Actual")
+    plt.ylabel("3-day Change in Stock Price ($)")
+    plt.title("Regressor Results on $TSLA Stock Data")
+    plt.legend(handles=[line1, line2])
+    plt.grid()
+    plt.show()
+
+    # print(final_data)
+    # print(X_test)
     print("Correlation (r2 score): ")
     print(regressor.score(X_test, y_test))
+    print(regressor.predict(X_test))
+    print(y_test)
     print("Regressor weights:")
     print(regressor.coef_)
 
