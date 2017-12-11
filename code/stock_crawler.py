@@ -19,12 +19,12 @@ if __name__ == "__main__":
 	api = tweepy.API(auth)
 
 	# request tweet
-	f = open("tweet_generated_tesla_alot.csv", "w+")
+	f = open("./data/tweet_generated_tesla_example.csv", "w+")
 
 
 	query_list = [("Tesla","stock")]
 	# query_list = [("Tesla", "stock", "dow", "win"), ("Tesla", "stock", "lose"), ("Tesla", "stock", "win"), ("Tesla", "stock", "up"), ("Tesla", "stock", "down"), ("Tesla", "stock")]
-	max_tweets=1500
+	max_tweets=200
 	tweet_set = set()
 	for query in query_list:
 		searched_tweets = [status._json for status in tweepy.Cursor(api.search, q=query, lang="en").items(max_tweets)]
@@ -48,7 +48,7 @@ if __name__ == "__main__":
 	# for tweet in r:
 	# 	# print(tweet._json)
 
-	# 	# Remove emojis, hashtags, and URLS 
+	# 	# Remove emojis, hashtags, and URLS
 	# 	cleanedStr = tweetPreprocessor.clean(tweet.text)
 
 	# 	# Tokenize cleaned tweet into a string of words (separated by spaces)

@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
- 
+
 def google_stocks(symbol, shiftby=-1, startdate = (1, 1, 2006), enddate = None):
- 
+
     startdate = str(startdate[0]) + '+' + str(startdate[1]) + '+' + str(startdate[2])
- 
+
     if not enddate:
         enddate = time.strftime("%m+%d+%Y")
     else:
@@ -20,19 +20,19 @@ def google_stocks(symbol, shiftby=-1, startdate = (1, 1, 2006), enddate = None):
     stock_query = "http://finance.google.com/finance/historical?q=" + symbol + \
                 "&startdate=" + startdate + "&enddate=" + enddate + "&output=csv"
 
-    print stock_query
- 
+    print (stock_query)
+
     raw_response = requests.get(stock_query).content
-    
+
     stock_data = pd.read_csv(io.StringIO(raw_response.decode('utf-8')))
     stock_data['Date'] = stock_data['Date'].apply(lambda x: datetime.strptime(x, '%d-%b-%y').date())
     stock_data['Changes'] = stock_data['Close'] - stock_data['Close'].shift(shiftby)
     # stock_data['Date'] = stock_data['Date'].apply(lambda x: str(x))
-    stock_data.to_csv('../data/stock_price.csv')
+    stock_data.to_csv('./data/stock_price.csv')
     return stock_data
 
 def get_sentiment_data(csv):
-    sentiment_data = pd.read_csv('tweets_classifed_using_classifier.csv')
+    sentiment_data = pd.read_csv('./data/tweets_classifed_using_classifier.csv')
     sentiment_data.columns = ['Classification', 'Date', 'Tweet']
     sentiment_data = sentiment_data.drop('Tweet', axis=1)
 
@@ -45,7 +45,7 @@ def get_sentiment_data(csv):
     # Get classification counts per day
     sentiment_data_count = pd.DataFrame({'count' : sentiment_data.groupby( [ "Date", "Classification"] ).size()}).reset_index()
     sentiment_data_count = sentiment_data_count.pivot(index='Date', columns='Classification', values='count').reset_index()
-    sentiment_data_count.to_csv('../data/sentiment_data.csv')
+    sentiment_data_count.to_csv('./data/sentiment_data.csv')
     return sentiment_data_count
 
 def get_final_data(sentiment_data, stock_data):
@@ -55,12 +55,12 @@ def get_final_data(sentiment_data, stock_data):
 
     # Remove NaNs
     final_data = final_data[final_data['Changes'] == final_data['Changes']]
-    final_data.to_csv('../data/regressor_data.csv')
+    final_data.to_csv('./data/regressor_data.csv')
     return final_data
 
 if __name__ == '__main__':
     tesla_data = google_stocks('TSLA', shiftby=3, startdate=(11, 28, 2017), enddate=(12, 11, 2017))
-    sentiment_data = get_sentiment_data('../data/tweets_classifed_using_classifier.csv')
+    sentiment_data = get_sentiment_data('./data/tweets_classifed_using_classifier.csv')
 
     # print(tesla_data)
 
@@ -95,9 +95,3 @@ if __name__ == '__main__':
     # print(y_test)
     # print("Regressor weights:")
     # print(regressor.coef_)
-
-
-
-
-
-
