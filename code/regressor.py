@@ -79,22 +79,22 @@ if __name__ == '__main__':
     y_pred = regressor.predict(X)
     y_true = y
 
-    line1, = plt.plot(x_plot, y_pred, label="Predicted")
-    line2, = plt.plot(x_plot, y_true, label="Actual")
-    plt.ylabel("3-day Change in Stock Price ($)")
-    plt.title("Regressor Results on $TSLA Stock Data")
-    plt.legend(handles=[line1, line2])
-    plt.grid()
-    plt.show()
+    # line1, = plt.plot(x_plot, y_pred, label="Predicted")
+    # line2, = plt.plot(x_plot, y_true, label="Actual")
+    # plt.ylabel("3-day Change in Stock Price ($)")
+    # plt.title("Regressor Results on $TSLA Stock Data")
+    # plt.legend(handles=[line1, line2])
+    # plt.grid()
+    # plt.show()
 
     # print(final_data)
     # print(X_test)
-    print("Correlation (r2 score): ")
-    print(regressor.score(X_test, y_test))
-    print(regressor.predict(X_test))
-    print(y_test)
-    print("Regressor weights:")
-    print(regressor.coef_)
+    # print("Correlation (r2 score): ")
+    # print(regressor.score(X_test, y_test))
+    # print(regressor.predict(X_test))
+    # print(y_test)
+    # print("Regressor weights:")
+    # print(regressor.coef_)
 
 
 
