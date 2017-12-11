@@ -42,9 +42,9 @@ def tweet_classyfier(f_testing,f_output,classifier,all_words):
 
 
 
-f_training = open("./data/tweet_training_tesla.csv", 'r', encoding='mac_roman', newline='')
-f_testing = open("./data/tweet_generated_tesla.csv", 'r', encoding='mac_roman', newline='')
-f_output = open("./data/tweets_classifed_using_classifier.csv","w+")
+f_training = open("../data/tweet_training_tesla.csv", 'r', encoding='mac_roman', newline='')
+f_testing = open("../data/tweet_generated_tesla.csv", 'r', encoding='mac_roman', newline='')
+f_output = open("../data/tweets_classifed_using_classifier.csv","w+")
 
 train = tweet_trainer(f_training)
 

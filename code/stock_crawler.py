@@ -19,7 +19,7 @@ if __name__ == "__main__":
 	api = tweepy.API(auth)
 
 	# request tweet
-	f = open("./data/tweet_generated_tesla_example.csv", "w+")
+	f = open("../data/tweet_generated_tesla_example.csv", "w+")
 
 
 	query_list = [("Tesla","stock")]
